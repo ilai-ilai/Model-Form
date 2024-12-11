@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="col-md-offset-1 col-md-4">
+            <h3 class="page-header text-primary text-center">Registration</h3>
+            <form method="post" action="adddata">
+                {% csrf_token %}
+                {{form}}
+                <div class="pull-right" style="margin-top: 20px;">
+                    <input type="reset"class="btn btn-danger"value="clear">
+                    <input type="submit"class="btn btn-primary"value="submit">
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-6">
+            
+            <h3 class="page-header text-primary text-center">View Registration</h3>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger">
+                            {{message}}
+                        </div>
+                    {% else %}    
+                        <div class="alert alert-{{message.tags}}">
+                            {{message}}
+                        </div>
+                    {% endif %}    
+                {% endfor %}
+            {% endif %}
+            
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">S.No</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Adderss</th>
+                        <th>Mail</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                {% for datas in data %}
+                <tbody>
+                    <tr>
+                        <td style="text-align: center;">{{forloop.counter}}</td>
+                        <td>{{datas.name}}</td>
+                        <td>{{datas.contact}}</td>
+                        <td>{{datas.address}}</td>
+                        <td>{{datas.mail}}</td>
+                        <td style="text-align: center;"><a href="updatedata/{{datas.id}}"class="btn btn-info">update</a></td>
+                        <td style="text-align: center;"><a href="deletedata/{{datas.id}}"class="btn btn-danger">Delete</a></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            
+        </div>
+    </div>
+{% endblock %}
